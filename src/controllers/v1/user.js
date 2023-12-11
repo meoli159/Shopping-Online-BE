@@ -29,7 +29,7 @@ export const login = async (req, res) => {
 
 export const register = async (req, res) => {
   try {
-    const { username, password, name, address } = req.body;
+    const { username, password, email, phone, address } = req.body;
     if (!username || !password) {
       return res.status(401).json({ message: 'Please fill all required fields' });
     }
@@ -47,8 +47,9 @@ export const register = async (req, res) => {
     const user = await User.create({
       username: username,
       password: await hashPassword(password),
-      name: name,
-      dob: address,
+      email: email,
+      phone: phone,
+      address: address,
     });
 
     return res.status(200).json(user);

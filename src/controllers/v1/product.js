@@ -1,10 +1,10 @@
-import { product } from '../../models/post.js';
+import { Product } from '../../models/product.js';
 import '../../models/user.js';
 import '../../models/cart.js';
 import { User } from '../../models/user.js';
 export const getAllProducts = async (req, res) => {
   try {
-    const Products = await product.find();
+    const Products = await Product.find();
 
     if (!Products.length > 0) return res.json({ message: 'There is no product!!' });
     return res.status(200).json(Products);

@@ -1,14 +1,9 @@
 import express from 'express';
-import {
-  getAllPosts,
-  createPost,
-  updatePost,
-  deletePost,
-} from '../../controllers/v1/post.js';
-const postRoutes = express.Router();
+import { getAllProducts, createProduct, updateProduct, deleteProduct } from '../../controllers/v1/product.js';
+const productRoutes = express.Router();
 
-postRoutes.get('/', getAllPosts);
-postRoutes.post('/', createPost);
-postRoutes.patch('/:id', updatePost);
-postRoutes.delete('/:id', deletePost);
-export { postRoutes };
+productRoutes.get('/', getAllProducts);
+productRoutes.post('/', createProduct);
+productRoutes.patch('/:id', updateProduct);
+productRoutes.delete('/:id', deleteProduct);
+export { productRoutes };
