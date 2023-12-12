@@ -1,11 +1,11 @@
 import express from 'express';
-import { postRoutes } from './post.js';
+import { productRoutes } from './product.js';
 import { authRoutes } from './user.js';
-import { commentRoutes } from './comment.js';
+// import { commentRoutes } from './order.js';
 const router = express.Router();
 
 router.use('/auth', authRoutes);
-router.use('/posts', postRoutes);
-router.use('/comments', commentRoutes);
+router.use('/posts', productRoutes);
+// router.use('/comments', commentRoutes);
 
 export { router as routes };

@@ -29,7 +29,9 @@ export const login = async (req, res) => {
 
 export const register = async (req, res) => {
   try {
-    const { username, password, name, address } = req.body;
+    const { username, password, email, address, phone } = req.body;
+    const reg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    const checkMail = reg.test(email);
     if (!username || !password) {
       return res.status(401).json({ message: 'Please fill all required fields' });
     }
@@ -37,7 +39,11 @@ export const register = async (req, res) => {
     if (existUser) {
       return res.status(400).json({ message: 'Username already existed' });
     }
-
+    if (!checkMail) {
+      return res.json({
+        message: 'Invalid Mail',
+      });
+    }
     if (password && password.length <= 6) {
       return res.json({
         message: 'Please provide a password with more than 6 characters',
@@ -47,8 +53,9 @@ export const register = async (req, res) => {
     const user = await User.create({
       username: username,
       password: await hashPassword(password),
-      name: name,
-      dob: address,
+      email: email,
+      phone: phone,
+      address: address,
     });
 
     return res.status(200).json(user);
@@ -57,6 +64,6 @@ export const register = async (req, res) => {
     res.status(500).json({ message: 'Internal server error.' });
   }
 };
-
+export const logOut = () => {};
 export const updateUser = () => {};
 export const deleteUser = () => {};
