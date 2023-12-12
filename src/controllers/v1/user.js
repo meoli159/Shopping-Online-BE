@@ -32,6 +32,7 @@ export const register = async (req, res) => {
     const { username, password, email, address, phone } = req.body;
     const reg = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
     const checkMail = reg.test(email);
+
     if (!username || !password) {
       return res.status(401).json({ message: 'Please fill all required fields' });
     }
