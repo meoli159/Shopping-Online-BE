@@ -7,6 +7,15 @@ const userSchema = new Schema(
     email: { type: String, trim: true },
     phone: { type: Number, trim: true },
     address: { type: String, trim: true },
+    roles: {
+      type: [
+        {
+          type: String,
+          enum: ['user', 'admin', 'staff'],
+        },
+      ],
+      default: ['user'],
+    },
   },
   { timestamps: true }
 );
