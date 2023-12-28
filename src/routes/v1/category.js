@@ -7,7 +7,7 @@ const categoryRoutes = express.Router();
 categoryRoutes.get('/', getCategories);
 
 //Protected route
-categoryRoutes.all(isAdminMiddleware);
+categoryRoutes.use(isAdminMiddleware);
 categoryRoutes.post('/', isStaffMiddleware, createCategory);
 categoryRoutes.patch('/:id', isStaffMiddleware, updateCategory);
 categoryRoutes.delete('/:id', deleteCategory);
