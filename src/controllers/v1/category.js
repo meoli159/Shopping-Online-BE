@@ -30,5 +30,28 @@ export const createCategory = async (req, res) => {
   }
 };
 
-export const updateCategory = () => {};
-export const deleteCategory = () => {};
+export const updateCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { categoryName } = req.body;
+    const updatedCategory = {
+      categoryName: categoryName,
+    };
+    const result = await Category.findByIdAndUpdate(id, updatedCategory, { new: true });
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send('Bad Request');
+  }
+};
+export const deleteCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const category = await Category.findByIdAndDelete(id);
+    if (!category) return res.json({ message: 'Category is not existed!!' });
+    return res.status(200).json({ message: 'Delete Success', data: category.id });
+  } catch (error) {
+    console.error(error);
+    res.status(400).send('Bad Request');
+  }
+};
