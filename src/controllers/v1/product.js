@@ -24,17 +24,18 @@ export const getProductDetail = async (req, res) => {
 };
 export const createProduct = async (req, res) => {
   try {
-    const { productName, description, img, price, quantity, categoryId } = req.body;
+    const { productName, description, price, quantity, categoryId } = req.body;
+    const img = req.file;
     const category = await Category.findById(categoryId);
     const newProduct = await Product.create({
       productName: productName,
       description: description,
-      img: img,
+      img: img.path,
       price: price,
       quantity: quantity,
       category: category,
     });
-    return res.status(200).json(newProduct);
+    return res.status(201).json(newProduct);
   } catch (error) {
     console.error(error);
     res.status(400).send('Bad Request');
@@ -42,9 +43,9 @@ export const createProduct = async (req, res) => {
 };
 export const updateProduct = async (req, res) => {
   try {
-    const { productName, description, img, price, quantity, categoryId } = req.body;
+    const { productName, description, price, quantity, categoryId } = req.body;
     const { id } = req.params;
-
+    const img = req.file;
     const category = await Category.findById(categoryId);
     if (!category) {
       return res.status(404).json({ message: 'Category not found' });
@@ -53,7 +54,7 @@ export const updateProduct = async (req, res) => {
     const updatedProduct = {
       productName: productName,
       description: description,
-      img: img,
+      img: img.path,
       price: price,
       quantity: quantity,
       category: category,
