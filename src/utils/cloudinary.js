@@ -1,6 +1,8 @@
 import { v2 as cloudinary } from 'cloudinary';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import multer from 'multer';
+import { v4 as uuidv4 } from 'uuid';
+import { format } from 'date-fns';
 import 'dotenv/config';
 
 cloudinary.config({
@@ -12,24 +14,24 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'product',
+    format: 'jpeg',
     resource_type: 'image', // supports promises as well
-    public_id: (req, file) => Date.now(),
+    public_id: (req, file) => {
+      const timeStamp = format(new Date(), 'yyyy-MM-dd-HHmmss');
+      const uniqueIdentifier = uuidv4();
+      return `${uniqueIdentifier}_${timeStamp}`;
+    },
   },
 });
 
 export const uploadImage = multer({ storage: storage });
 
-// export const uploadImage = async (file) => {
-//   try {
-//     // console.log('Uploading image to Cloudinary:', img);
-//     const result = await cloudinary.uploader.upload(file, {
-//       folder: 'product',
-//       public_id: Date.now(),
-//       resource_type: 'image',
-//     });
-//     console.log(result);
-//     return result;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+export const deleteImage = async (file) => {
+  try {
+    // console.log('Uploading image to Cloudinary:', img);
+    const result = await cloudinary.uploader.destroy(file);
+    return result;
+  } catch (error) {
+    console.error(error);
+  }
+};
