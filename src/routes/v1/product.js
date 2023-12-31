@@ -6,7 +6,7 @@ import {
   deleteProduct,
   getProductDetail,
 } from '../../controllers/v1/product.js';
-import { isAdminMiddleware, isStaffMiddleware } from '../../middlewares/authMiddleware.js';
+import { isAllowedRoleMiddleware } from '../../middlewares/authMiddleware.js';
 import { uploadImage } from '../../utils/cloudinary.js';
 
 const productRoutes = express.Router();
@@ -16,8 +16,8 @@ productRoutes.get('/', getAllProducts);
 productRoutes.get('/:id', getProductDetail);
 
 //Protected route
-productRoutes.use(isAdminMiddleware, uploadImage.single('img'));
-productRoutes.post('/', isStaffMiddleware, createProduct);
-productRoutes.patch('/:id', isStaffMiddleware, updateProduct);
-productRoutes.delete('/:id', deleteProduct);
+productRoutes.use(uploadImage.single('img'));
+productRoutes.post('/', isAllowedRoleMiddleware('admin', 'staff'), createProduct);
+productRoutes.patch('/:id', isAllowedRoleMiddleware('admin', 'staff'), updateProduct);
+productRoutes.delete('/:id', isAllowedRoleMiddleware('admin'), deleteProduct);
 export { productRoutes };

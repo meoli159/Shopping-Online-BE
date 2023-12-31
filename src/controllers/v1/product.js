@@ -32,7 +32,7 @@ export const createProduct = async (req, res) => {
     const newProduct = await Product.create({
       productName: productName,
       description: description,
-      img: img.filename,
+      img: img?.filename,
       price: price,
       quantity: quantity,
       category: category,

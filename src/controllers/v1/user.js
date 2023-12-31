@@ -20,14 +20,14 @@ export const login = async (req, res) => {
     if (!isPasswordMatch) {
       return res.status(401).json({ message: 'Invalid password' });
     }
-    const access_token = generateAccessToken({ id: existUser.id, role: existUser.roles });
+    const access_token = generateAccessToken({ id: existUser.id, roles: existUser.roles });
     res.cookie('token', access_token, {
       httpOnly: true,
       secure: false,
       sameSite: 'strict',
       path: '/',
     });
-    const refresh_token = generateRefreshToken({ id: existUser.id, role: existUser.roles });
+    const refresh_token = generateRefreshToken({ id: existUser.id, roles: existUser.roles });
 
     return res.status(200).json({
       message: 'Login successful',
